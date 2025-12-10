@@ -30,18 +30,18 @@ const PfpGenerator = () => {
       {/* Info Button - Fixed outside main container */}
       <button
         onClick={() => setShowInfoPopup(true)}
-        className="fixed bottom-8 right-8 cursor-pointer"
+        className="fixed bottom-4 right-4 md:bottom-8 md:right-8 cursor-pointer"
         style={{ zIndex: 60, pointerEvents: 'auto' }}
       >
         <div
-          className={`w-16 h-16 rounded-full flex items-center justify-center transition-all duration-300 border-2 border-white/30 cursor-pointer ${
+          className={`w-12 h-12 md:w-16 md:h-16 rounded-full flex items-center justify-center transition-all duration-300 border-2 border-white/30 cursor-pointer ${
             showInfoPopup
               ? 'bg-[#D4A574] scale-110 shadow-2xl shadow-[#D4A574]/50'
               : 'bg-white/20 backdrop-blur-md hover:bg-white/30 hover:scale-110'
           }`}
         >
           <span
-            className="text-white text-3xl font-bold"
+            className="text-white text-2xl md:text-3xl font-bold"
             style={{
               fontFamily: "Gaegu, cursive",
             }}
@@ -90,7 +90,7 @@ const PfpGenerator = () => {
           }}
         >
           <div
-            className="relative bg-gradient-to-br from-pink-100 via-purple-100 to-blue-100 rounded-[2.5rem] p-10 max-w-3xl w-full mx-4 border-8 border-black shadow-[8px_8px_0px_rgba(0,0,0,1)]"
+            className="relative bg-gradient-to-br from-pink-100 via-purple-100 to-blue-100 rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-10 max-w-3xl w-full mx-4 border-4 md:border-8 border-black shadow-[4px_4px_0px_rgba(0,0,0,1)] md:shadow-[8px_8px_0px_rgba(0,0,0,1)]"
             onClick={(e) => e.stopPropagation()}
             style={{
               animation: isClosing
@@ -101,7 +101,7 @@ const PfpGenerator = () => {
             {/* Close button */}
             <button
               onClick={closePopup}
-              className="absolute -top-4 -right-4 w-12 h-12 bg-white rounded-full text-3xl font-black hover:scale-110 transition-transform border-4 border-black shadow-lg flex items-center justify-center"
+              className="absolute -top-2 -right-2 md:-top-4 md:-right-4 w-10 h-10 md:w-12 md:h-12 bg-white rounded-full text-2xl md:text-3xl font-black hover:scale-110 transition-transform border-2 md:border-4 border-black shadow-lg flex items-center justify-center"
               style={{
                 color: "#D4A574",
               }}
@@ -110,10 +110,10 @@ const PfpGenerator = () => {
             </button>
 
             {/* Tabs */}
-            <div className="flex gap-4 mb-8 border-b-4 border-black pb-2">
+            <div className="flex gap-2 md:gap-4 mb-6 md:mb-8 border-b-2 md:border-b-4 border-black pb-2">
               <button
                 onClick={() => setActiveTab("what")}
-                className={`px-6 py-3 text-2xl font-bold rounded-t-2xl transition-all border-4 border-black ${
+                className={`px-3 md:px-6 py-2 md:py-3 text-lg md:text-2xl font-bold rounded-t-xl md:rounded-t-2xl transition-all border-2 md:border-4 border-black ${
                   activeTab === "what"
                     ? "shadow-md -mb-2"
                     : "hover:bg-pink-200"
@@ -128,7 +128,7 @@ const PfpGenerator = () => {
               </button>
               <button
                 onClick={() => setActiveTab("contributions")}
-                className={`px-6 py-3 text-2xl font-bold rounded-t-2xl transition-all border-4 border-black ${
+                className={`px-3 md:px-6 py-2 md:py-3 text-lg md:text-2xl font-bold rounded-t-xl md:rounded-t-2xl transition-all border-2 md:border-4 border-black ${
                   activeTab === "contributions"
                     ? "shadow-md -mb-2"
                     : "hover:bg-pink-200"
@@ -144,11 +144,11 @@ const PfpGenerator = () => {
             </div>
 
             {/* Content */}
-            <div className="min-h-[300px]">
+            <div className="min-h-[200px] md:min-h-[300px]">
               {activeTab === "what" ? (
                 <div>
                   <h2
-                    className="text-5xl font-black mb-6 uppercase"
+                    className="text-3xl md:text-5xl font-black mb-4 md:mb-6 uppercase"
                     style={{
                       fontFamily: "Gaegu, cursive",
                       color: "#D4A574",
@@ -159,7 +159,7 @@ const PfpGenerator = () => {
                     Rocky's Head Generator
                   </h2>
                   <p
-                    className="text-gray-800 text-2xl leading-relaxed mb-4"
+                    className="text-gray-800 text-lg md:text-2xl leading-relaxed mb-3 md:mb-4"
                     style={{
                       fontFamily: "Gaegu, cursive",
                       fontWeight: 400,
@@ -168,7 +168,7 @@ const PfpGenerator = () => {
                     Create your own unique Rocky's Head character! Mix and match different accessories, hairstyles, clothes, and backgrounds to design your perfect avatar.
                   </p>
                   <p
-                    className="text-gray-800 text-2xl leading-relaxed"
+                    className="text-gray-800 text-lg md:text-2xl leading-relaxed"
                     style={{
                       fontFamily: "Gaegu, cursive",
                       fontWeight: 400,
@@ -180,7 +180,7 @@ const PfpGenerator = () => {
               ) : (
                 <div>
                   <h2
-                    className="text-5xl font-black mb-6 uppercase"
+                    className="text-3xl md:text-5xl font-black mb-4 md:mb-6 uppercase"
                     style={{
                       fontFamily: "Gaegu, cursive",
                       color: "#D4A574",
@@ -191,7 +191,7 @@ const PfpGenerator = () => {
                     Contributors
                   </h2>
                   <div
-                    className="text-gray-800 text-2xl leading-relaxed space-y-3"
+                    className="text-gray-800 text-lg md:text-2xl leading-relaxed space-y-2 md:space-y-3"
                     style={{
                       fontFamily: "Gaegu, cursive",
                       fontWeight: 400,

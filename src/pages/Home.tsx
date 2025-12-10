@@ -38,8 +38,8 @@ const Home = () => {
         className="absolute inset-0 transition-all duration-500 ease-out"
         style={{
           backgroundImage: getBackgroundImage(),
-          backgroundSize: "100% auto",
-          backgroundPosition: "center -100px",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
           transform: `translate(${mousePosition.x}px, ${mousePosition.y}px) scale(1.05)`,
           willChange: "transform",
@@ -53,7 +53,7 @@ const Home = () => {
       <ThemeToggle />
 
       {/* Social media buttons - positioned at the bottom left */}
-      <div className="absolute bottom-8 left-8 flex flex-col gap-4 z-50">
+      <div className="absolute bottom-4 left-4 md:bottom-8 md:left-8 flex flex-col gap-3 md:gap-4 z-50">
         {/* Discord Button */}
         <button
           onClick={() => handleSocialClick('discord')}
@@ -62,14 +62,14 @@ const Home = () => {
           className="relative group"
         >
           <div
-            className={`w-16 h-16 rounded-full flex items-center justify-center transition-all duration-300 border-2 border-white/30 ${
+            className={`w-12 h-12 md:w-16 md:h-16 rounded-full flex items-center justify-center transition-all duration-300 border-2 border-white/30 ${
               hoveredSocial === 'discord'
                 ? 'bg-[#5865F2] scale-110 shadow-2xl shadow-[#5865F2]/50'
                 : 'bg-white/20 backdrop-blur-md hover:bg-white/30'
             }`}
           >
             <svg
-              className={`w-10 h-10 transition-colors duration-300 ${
+              className={`w-8 h-8 md:w-10 md:h-10 transition-colors duration-300 ${
                 hoveredSocial === 'discord' ? 'text-white' : 'text-white/80'
               }`}
               fill="currentColor"
@@ -89,14 +89,14 @@ const Home = () => {
           className="relative group"
         >
           <div
-            className={`w-16 h-16 rounded-full flex items-center justify-center transition-all duration-300 border-2 border-white/30 ${
+            className={`w-12 h-12 md:w-16 md:h-16 rounded-full flex items-center justify-center transition-all duration-300 border-2 border-white/30 ${
               hoveredSocial === 'twitter'
                 ? 'bg-black scale-110 shadow-2xl shadow-black/50'
                 : 'bg-white/20 backdrop-blur-md hover:bg-white/30'
             }`}
           >
             <svg
-              className={`w-9 h-9 transition-colors duration-300 ${
+              className={`w-7 h-7 md:w-9 md:h-9 transition-colors duration-300 ${
                 hoveredSocial === 'twitter' ? 'text-white' : 'text-white/80'
               }`}
               fill="currentColor"

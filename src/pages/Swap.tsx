@@ -45,11 +45,11 @@ const Swap = () => {
 
         {/* Coming Soon Text */}
         <div 
-          className="absolute inset-0 flex items-center justify-center"
+          className="absolute inset-0 flex items-center justify-center px-4"
           style={{ zIndex: 2 }}
         >
           <h1
-            className="text-9xl font-black uppercase"
+            className="text-5xl sm:text-7xl md:text-9xl font-black uppercase text-center"
             style={{
               fontFamily: "Gaegu, cursive",
               color: "#D4A574",

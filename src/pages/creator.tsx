@@ -53,9 +53,9 @@ export default function CharacterCreator() {
   };
 
   return (
-    <div className="h-full w-full flex flex-col lg:justify-center items-center lg:overflow-hidden overflow-y-auto py-5">
+    <div className="h-full w-full flex flex-col lg:justify-center items-center lg:overflow-hidden overflow-y-auto py-5 px-4">
       <h1
-        className="font-black text-5xl lg:mb-5 lg:mt-0 mt-5 tracking-wide"
+        className="font-black text-3xl sm:text-4xl md:text-5xl lg:mb-5 lg:mt-0 mt-5 tracking-wide text-center"
         style={{ 
           color: "#D4A574", 
           fontFamily: "Gaegu, cursive",

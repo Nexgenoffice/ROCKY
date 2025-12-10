@@ -45,7 +45,7 @@ const ComingSoon = () => {
         
         {/* Texte Coming Soon au premier plan */}
         <h1 
-          className="relative text-9xl font-black uppercase"
+          className="relative text-5xl sm:text-7xl md:text-9xl font-black uppercase text-center px-4"
           style={{
             zIndex: 2,
             fontFamily: "Gaegu, cursive",

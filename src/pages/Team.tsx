@@ -175,13 +175,13 @@ const Team = () => {
       <ThemeToggle />
 
       {/* Mur de tags avec les membres de l'équipe */}
-      <div className="relative z-10 w-full h-full p-8 mt-16">
+      <div className="relative z-10 w-full h-full p-4 md:p-8 mt-16">
         {teamMembers.map((member, index) => {
           const position = tagPositions[index];
           return (
             <div
               key={member.id}
-              className="absolute w-80 h-80 transition-all duration-300"
+              className="absolute w-40 h-40 sm:w-60 sm:h-60 md:w-80 md:h-80 transition-all duration-300"
               style={{
                 top: position.top,
                 left: position.left,
@@ -217,7 +217,7 @@ const Team = () => {
       {selectedMember && (
         <div 
           key={selectedMember.id}
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
           onClick={closePopup}
           style={{
             animation: isClosing ? 'fadeOut 0.3s ease-out forwards' : 'fadeIn 0.3s ease-out forwards',
@@ -225,7 +225,7 @@ const Team = () => {
           }}
         >
           <div 
-            className="relative bg-gradient-to-br from-pink-100 via-purple-100 to-blue-100 rounded-[2.5rem] p-12 max-w-5xl w-full mx-4 border-8 border-black shadow-[8px_8px_0px_rgba(0,0,0,1)] overflow-visible"
+            className="relative bg-gradient-to-br from-pink-100 via-purple-100 to-blue-100 rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-12 max-w-5xl w-full mx-4 border-4 md:border-8 border-black shadow-[4px_4px_0px_rgba(0,0,0,1)] md:shadow-[8px_8px_0px_rgba(0,0,0,1)] overflow-visible"
             onClick={(e) => e.stopPropagation()}
             style={{
               animation: isClosing 
@@ -236,7 +236,7 @@ const Team = () => {
             {/* Close button */}
             <button
               onClick={closePopup}
-              className="absolute -top-4 -right-4 w-12 h-12 bg-[#D4A574] rounded-full text-[#D4A574] text-3xl font-black hover:scale-110 transition-transform border-4 border-black shadow-lg flex items-center justify-center"
+              className="absolute -top-2 -right-2 md:-top-4 md:-right-4 w-10 h-10 md:w-12 md:h-12 bg-[#D4A574] rounded-full text-[#D4A574] text-2xl md:text-3xl font-black hover:scale-110 transition-transform border-2 md:border-4 border-black shadow-lg flex items-center justify-center"
               style={{
                 color: '#D4A574',
                 backgroundColor: 'white'
@@ -245,9 +245,9 @@ const Team = () => {
               ×
             </button>
 
-            {/* Photo du membre - Chevauche à gauche */}
+            {/* Photo du membre - Chevauche à gauche sur desktop, en haut sur mobile */}
             <div 
-              className="absolute -left-32 top-1/2 -translate-y-1/2 w-[400px] h-[400px] z-10"
+              className="relative md:absolute mx-auto md:mx-0 md:-left-32 md:top-1/2 md:-translate-y-1/2 w-[200px] h-[200px] md:w-[400px] md:h-[400px] z-10 mb-4 md:mb-0"
               style={{
                 backgroundImage: `url(${selectedMember.image})`,
                 backgroundSize: "contain",
@@ -258,9 +258,9 @@ const Team = () => {
             />
 
             {/* Info du membre */}
-            <div className="ml-72 flex-1">
+            <div className="md:ml-72 flex-1 text-center md:text-left">
               <h2 
-                className="text-8xl font-black mb-4 uppercase tracking-tight"
+                className="text-4xl md:text-8xl font-black mb-2 md:mb-4 uppercase tracking-tight"
                 style={{ 
                   fontFamily: "Gaegu, cursive",
                   color: '#D4A574',
@@ -271,7 +271,7 @@ const Team = () => {
                 {selectedMember.name}
               </h2>
               <p 
-                className="text-gray-600 text-4xl mb-8 uppercase tracking-wide"
+                className="text-gray-600 text-2xl md:text-4xl mb-4 md:mb-8 uppercase tracking-wide"
                 style={{ 
                   fontFamily: "Gaegu, cursive",
                   fontWeight: 700
@@ -280,7 +280,7 @@ const Team = () => {
                 {selectedMember.role}
               </p>
               <p 
-                className="text-gray-800 text-3xl leading-relaxed mb-6"
+                className="text-gray-800 text-xl md:text-3xl leading-relaxed mb-4 md:mb-6"
                 style={{ 
                   fontFamily: "Gaegu, cursive",
                   fontWeight: 400
@@ -292,13 +292,13 @@ const Team = () => {
                 href={selectedMember.twitter} 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-3 bg-black text-white px-6 py-3 rounded-full hover:bg-blue-400 transition-colors border-4 border-black shadow-lg"
+                className="inline-flex items-center gap-2 md:gap-3 bg-black text-white px-4 md:px-6 py-2 md:py-3 rounded-full hover:bg-blue-400 transition-colors border-2 md:border-4 border-black shadow-lg"
                 style={{ fontFamily: "Gaegu, cursive", fontWeight: 700 }}
               >
-                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 md:w-6 md:h-6" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                 </svg>
-                <span className="text-2xl">Twitter</span>
+                <span className="text-lg md:text-2xl">Twitter</span>
               </a>
             </div>
           </div>
