@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
-import { Upload } from "lucide-react";
+import { Upload, Palette } from "lucide-react";
 import { useRef, useState } from "react";
 import { ACCESSORY_CATEGORIES } from "./config";
 
@@ -24,7 +24,11 @@ export default function AccessorySelector({
   const categories = [...mainCategories, ...secondaryCategories];
 
   const [activeTab, setActiveTab] = useState(categories[0].id);
+  const [showColorPicker, setShowColorPicker] = useState(false);
+  const [customColor, setCustomColor] = useState("#FFFFFF");
+  const [colorPickerPosition, setColorPickerPosition] = useState({ x: 0, y: 0 });
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const colorButtonRef = useRef<HTMLButtonElement>(null);
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -38,8 +42,26 @@ export default function AccessorySelector({
     }
   };
 
+  const handleColorButtonClick = () => {
+    if (colorButtonRef.current) {
+      const rect = colorButtonRef.current.getBoundingClientRect();
+      setColorPickerPosition({
+        x: rect.right + 10,
+        y: rect.top
+      });
+      setShowColorPicker(!showColorPicker);
+    }
+  };
+
+  const predefinedColors = [
+    "#FFFFFF", "#000000", "#FF0000", "#00FF00", "#0000FF",
+    "#FFFF00", "#FF00FF", "#00FFFF", "#FFA500", "#800080",
+    "#FFC0CB", "#A52A2A", "#808080", "#FFD700", "#4B0082",
+    "#E6E6FA", "#F0E68C", "#87CEEB", "#90EE90", "#FFB6C1"
+  ];
+
   return (
-    <div className="flex flex-col lg:h-[560px] lg:w-[700px] lg:max-w-auto max-w-[600px] w-[90%] bg-transparent">
+    <div className="flex flex-col lg:h-[480px] lg:w-[550px] lg:max-w-auto max-w-[600px] w-[90%] bg-transparent">
       <div
         className="flex flex-col h-full rounded-3xl shadow-2xl border border-[#463832]/50 lg:overflow-hidden overflow-visible"
         style={{
@@ -83,9 +105,9 @@ export default function AccessorySelector({
 
             <div className="flex-1 lg:overflow-hidden">
               <div
-                className="h-full lg:p-4 p-3 lg:overflow-y-scroll"
+                className="h-full lg:p-4 p-3 lg:overflow-y-auto"
                 style={{ 
-                  maxHeight: "calc(100vh - 300px)",
+                  maxHeight: "320px",
                   scrollbarWidth: "thin",
                   scrollbarColor: "#8B7355 transparent"
                 }}
@@ -107,7 +129,7 @@ export default function AccessorySelector({
                         </span>
                       </button>
 
-                      {/* Upload button pour backgrounds */}
+                      {/* Upload button et Color picker pour backgrounds */}
                       {cat.id === "fonds" && (
                         <>
                           <input
@@ -127,6 +149,22 @@ export default function AccessorySelector({
                             <Upload className="w-5 h-5 text-[#8B7355]" />
                             <span className="text-[10px] text-[#8B7355] font-medium">
                               Upload
+                            </span>
+                          </button>
+                          
+                          <button
+                            ref={colorButtonRef}
+                            onClick={handleColorButtonClick}
+                            className={cn(
+                              "aspect-square rounded-2xl border flex flex-col items-center justify-center transition-all hover:scale-105 shadow-lg gap-1",
+                              selectedAccessories.fonds?.startsWith('#')
+                                ? "border-[#8B7355] bg-[#3A312A] ring-2 ring-[#8B7355]/30 shadow-[#8B7355]/20"
+                                : "border-[#463832] bg-[#3A312A] hover:border-[#6B5B4D] hover:shadow-xl"
+                            )}
+                          >
+                            <Palette className="w-5 h-5 text-[#8B7355]" />
+                            <span className="text-[10px] text-[#8B7355] font-medium">
+                              Color
                             </span>
                           </button>
                         </>
@@ -178,6 +216,80 @@ export default function AccessorySelector({
           </Tabs>
         </div>
       </div>
+
+      {/* Custom Color Picker Modal */}
+      {showColorPicker && (
+        <>
+          <div 
+            className="fixed inset-0 z-40"
+            onClick={() => setShowColorPicker(false)}
+          />
+          <div
+            className="fixed z-50 bg-[#1E1917] rounded-3xl shadow-2xl border-2 border-[#8B7355] p-6"
+            style={{
+              left: `${colorPickerPosition.x}px`,
+              top: `${colorPickerPosition.y}px`,
+              backdropFilter: "blur(10px)",
+              WebkitBackdropFilter: "blur(10px)",
+            }}
+          >
+            <h3 className="text-white font-bold mb-4 text-center">Choose Color</h3>
+            
+            {/* Predefined Colors Grid */}
+            <div className="grid grid-cols-5 gap-2 mb-4">
+              {predefinedColors.map((color) => (
+                <button
+                  key={color}
+                  onClick={() => {
+                    setCustomColor(color);
+                    onSelect("fonds", color);
+                    setShowColorPicker(false);
+                  }}
+                  className={cn(
+                    "w-10 h-10 rounded-full border-2 transition-all hover:scale-110 shadow-lg",
+                    customColor === color ? "border-white ring-2 ring-white/50" : "border-[#463832]"
+                  )}
+                  style={{ backgroundColor: color }}
+                />
+              ))}
+            </div>
+
+            {/* Custom Color Input */}
+            <div className="flex items-center gap-3">
+              <div className="relative">
+                <input
+                  type="color"
+                  value={customColor}
+                  onChange={(e) => {
+                    setCustomColor(e.target.value);
+                    onSelect("fonds", e.target.value);
+                  }}
+                  className="absolute inset-0 opacity-0 cursor-pointer"
+                  style={{ width: '48px', height: '48px' }}
+                />
+                <div 
+                  className="w-12 h-12 rounded-full border-2 border-[#8B7355] cursor-pointer shadow-lg"
+                  style={{ backgroundColor: customColor }}
+                />
+              </div>
+              <div className="flex-1">
+                <input
+                  type="text"
+                  value={customColor}
+                  onChange={(e) => {
+                    setCustomColor(e.target.value);
+                    if (/^#[0-9A-F]{6}$/i.test(e.target.value)) {
+                      onSelect("fonds", e.target.value);
+                    }
+                  }}
+                  className="w-full bg-[#3A312A] text-white px-3 py-2 rounded-xl border border-[#463832] focus:border-[#8B7355] focus:outline-none"
+                  placeholder="#FFFFFF"
+                />
+              </div>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }

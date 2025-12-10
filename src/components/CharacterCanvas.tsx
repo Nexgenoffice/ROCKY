@@ -7,11 +7,13 @@ import { ACCESSORY_CATEGORIES } from "./config";
 interface CharacterCanvasProps {
   selectedAccessories: Record<string, string | null>;
   onReset: () => void;
+  onRandom: () => void;
 }
 
 export default function CharacterCanvas({
   selectedAccessories,
   onReset,
+  onRandom,
 }: CharacterCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isImageLoaded, setIsImageLoaded] = useState(false);
@@ -47,10 +49,17 @@ export default function CharacterCanvas({
       // 1. Draw selected fond (background)
       const fondsId = selectedAccessories.fonds;
       
-      // Check if it's an uploaded image (data URL) or a predefined option
+      // Check if it's a color, uploaded image (data URL) or a predefined option
       let backgroundSrc = null;
+      let isColor = false;
+      
       if (fondsId) {
-        if (fondsId.startsWith('data:image/')) {
+        if (fondsId.startsWith('#')) {
+          // It's a color
+          isColor = true;
+          ctx.fillStyle = fondsId;
+          ctx.fillRect(0, 0, width, height);
+        } else if (fondsId.startsWith('data:image/')) {
           // It's an uploaded image
           backgroundSrc = fondsId;
         } else {
@@ -65,7 +74,7 @@ export default function CharacterCanvas({
         backgroundSrc = ACCESSORY_CATEGORIES.fonds.options[0].value;
       }
 
-      if (backgroundSrc) {
+      if (backgroundSrc && !isColor) {
         const fondImg = new Image();
         fondImg.crossOrigin = "anonymous";
         fondImg.src = backgroundSrc;
@@ -224,7 +233,7 @@ export default function CharacterCanvas({
   return (
     <div className="flex items-center justify-center w-fit max-w-[90%] lg:mb-0 mb-5">
       <div
-        className="bg-[#1E1917] rounded-3xl shadow-2xl border border-[#463832]/50 w-full lg:p-6 p-4"
+        className="bg-[#1E1917] rounded-3xl shadow-2xl border border-[#463832]/50 w-full lg:p-6 p-4 lg:h-[480px] lg:w-[550px] flex flex-col"
         style={{
           backgroundColor: "rgba(30, 25, 23, 0.7)",
           backdropFilter: "blur(10px)",
@@ -239,7 +248,7 @@ export default function CharacterCanvas({
           }}
         >
           <div
-            className="relative rounded-2xl overflow-hidden border border-[#463832] bg-white shadow-xl lg:max-w-[450px] lg:max-h-[450px] max-w-[600px]"
+            className="relative rounded-2xl overflow-hidden border border-[#463832] bg-white shadow-xl lg:max-w-[400px] lg:max-h-[400px] max-w-[600px]"
             style={{
               minWidth: "250px",
               minHeight: "250px",
@@ -266,23 +275,52 @@ export default function CharacterCanvas({
         </div>
 
         {/* Buttons Section - Right Side */}
-        <div className="flex justify-center h-full lg:mt-5 mt-2 lg:gap-5 gap-2">
+        <div className="flex justify-center h-full lg:mt-3 mt-2 lg:gap-3 gap-2">
+          <Button
+            onClick={onRandom}
+            className="bg-[#8B7355] text-white hover:bg-[#A68A6D] transition-all rounded-xl shadow-lg text-xs"
+            style={{
+              width: "25%",
+              padding: "0.5rem 0.75rem",
+              minHeight: "32px",
+            }}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              style={{ marginRight: "0.4rem" }}
+            >
+              <path d="M2 18h1.4c1.3 0 2.5-.6 3.3-1.7l6.1-8.6c.7-1.1 2-1.7 3.3-1.7H22"/>
+              <path d="m18 2 4 4-4 4"/>
+              <path d="M2 6h1.9c1.5 0 2.9.9 3.6 2.2"/>
+              <path d="M22 18h-5.9c-1.3 0-2.6-.7-3.3-1.8l-.5-.8c-.7-1.1-2-1.8-3.3-1.8H2"/>
+              <path d="m18 14 4 4-4 4"/>
+            </svg>
+            Random
+          </Button>
+
           <Button
             onClick={onReset}
             variant="outline"
-            className="bg-[#5A4A3A] border-[#5A4A3A] text-white hover:bg-[#6B5B4D] transition-all rounded-xl shadow-lg"
+            className="bg-[#5A4A3A] border-[#5A4A3A] text-white hover:bg-[#6B5B4D] transition-all rounded-xl shadow-lg text-xs"
             style={{
-              width: "100%",
-              padding: "min(1rem, 2vh) min(1.5rem, 2vw)",
-              fontSize: "clamp(0.875rem, 1.5vw, 1rem)",
-              minHeight: "35px",
+              width: "25%",
+              padding: "0.5rem 0.75rem",
+              minHeight: "32px",
             }}
           >
             <RotateCcw
               style={{
-                width: "clamp(16px, 2vw, 20px)",
-                height: "clamp(16px, 2vw, 20px)",
-                marginRight: "0.5rem",
+                width: "14px",
+                height: "14px",
+                marginRight: "0.4rem",
               }}
             />
             Reset
@@ -290,19 +328,18 @@ export default function CharacterCanvas({
 
           <Button
             onClick={handleDownload}
-            className="bg-[#8B7355] text-white hover:bg-[#A68A6D] transition-all rounded-xl shadow-lg"
+            className="bg-[#8B7355] text-white hover:bg-[#A68A6D] transition-all rounded-xl shadow-lg text-xs"
             style={{
-              width: "100%",
-              padding: "min(1rem, 2vh) min(1.5rem, 2vw)",
-              fontSize: "clamp(0.875rem, 1.5vw, 1rem)",
-              minHeight: "35px",
+              width: "25%",
+              padding: "0.5rem 0.75rem",
+              minHeight: "32px",
             }}
           >
             <Download
               style={{
-                width: "clamp(16px, 2vw, 20px)",
-                height: "clamp(16px, 2vw, 20px)",
-                marginRight: "0.5rem",
+                width: "14px",
+                height: "14px",
+                marginRight: "0.4rem",
               }}
             />
             <p className="hidden sm:block">Download</p>
@@ -312,19 +349,18 @@ export default function CharacterCanvas({
           <Button
             onClick={handleShare}
             variant="secondary"
-            className="bg-[#5A4A3A] text-white hover:bg-[#6B5B4D] transition-all rounded-xl shadow-lg"
+            className="bg-[#5A4A3A] text-white hover:bg-[#6B5B4D] transition-all rounded-xl shadow-lg text-xs"
             style={{
-              width: "100%",
-              padding: "min(1rem, 2vh) min(1.5rem, 2vw)",
-              fontSize: "clamp(0.875rem, 1.5vw, 1rem)",
-              minHeight: "35px",
+              width: "25%",
+              padding: "0.5rem 0.75rem",
+              minHeight: "32px",
             }}
           >
             <Share2
               style={{
-                width: "clamp(16px, 2vw, 20px)",
-                height: "clamp(16px, 2vw, 20px)",
-                marginRight: "0.5rem",
+                width: "14px",
+                height: "14px",
+                marginRight: "0.4rem",
               }}
             />
             Share
@@ -335,11 +371,11 @@ export default function CharacterCanvas({
       {/* Share Modal */}
       {showShareModal && (
         <div 
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm pt-20"
           onClick={() => setShowShareModal(false)}
         >
           <div 
-            className="bg-[#1E1917] rounded-3xl shadow-2xl border border-[#463832] p-6 max-w-2xl w-[90%] mx-4"
+            className="bg-[#1E1917] rounded-2xl shadow-2xl border border-[#463832] p-5 max-w-lg w-[90%] mx-4 max-h-[85vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
             style={{
               backgroundColor: "rgba(30, 25, 23, 0.95)",
@@ -350,7 +386,7 @@ export default function CharacterCanvas({
               Share Your Rocky!
             </h3>
             
-            <div className="mb-4 rounded-xl overflow-hidden border border-[#463832] max-w-xs mx-auto">
+            <div className="mb-4 rounded-xl overflow-hidden border border-[#463832] max-w-[250px] mx-auto">
               <img 
                 src={shareImageUrl} 
                 alt="Your Rocky's head" 
@@ -358,7 +394,7 @@ export default function CharacterCanvas({
               />
             </div>
 
-            <div className="bg-[#2A2320] rounded-xl p-4 mb-4 border border-[#463832]">
+            <div className="bg-[#2A2320] rounded-xl p-3 mb-4 border border-[#463832]">
               <p className="text-[#D4C5B5] text-sm text-center whitespace-pre-line">
                 <span className="font-bold">Gmic Grocky 🤎</span>
                 {"\n\n"}
@@ -378,7 +414,7 @@ export default function CharacterCanvas({
                 className="flex-1 bg-[#1DA1F2] text-white hover:bg-[#1a8cd8] transition-all rounded-xl shadow-lg font-semibold"
               >
                 <svg 
-                  className="w-5 h-5 mr-2" 
+                  className="w-4 h-4 mr-2" 
                   fill="currentColor" 
                   viewBox="0 0 24 24"
                 >

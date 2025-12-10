@@ -98,6 +98,14 @@ export const ACCESSORY_CATEGORIES = {
         value: "/Mouth/tombone.png",
         label: "Tombone",
       },
+      { id: "m14", type: "image", value: "/Mouth/happy.png", label: "Happy" },
+      { id: "m15", type: "image", value: "/Mouth/kiss.png", label: "Kiss" },
+      {
+        id: "m16",
+        type: "image",
+        value: "/Mouth/tire_langue.png",
+        label: "Tire Langue",
+      },
     ],
   },
   hair: {
@@ -151,6 +159,16 @@ export const ACCESSORY_CATEGORIES = {
       { id: "h13", type: "image", value: "/hair/brushing.png", label: "Brushing" },
       { id: "h14", type: "image", value: "/hair/durden.png", label: "Durden" },
       { id: "h15", type: "image", value: "/hair/zizou.png", label: "Zizou" },
+      { id: "h16", type: "image", value: "/hair/93cap.png", label: "93 Cap" },
+      { id: "h17", type: "image", value: "/hair/blue.png", label: "Blue" },
+      {
+        id: "h18",
+        type: "image",
+        value: "/hair/christmaschap.png",
+        label: "Christmas Cap",
+      },
+      { id: "h19", type: "image", value: "/hair/xealist.png", label: "Xealist" },
+      { id: "h20", type: "image", value: "/hair/volcano.png", label: "Volcano" },
     ],
   },
   badges: {
@@ -429,6 +447,7 @@ export const ACCESSORY_CATEGORIES = {
         value: "/fonds/ruelle.jpg",
         label: "Ruelle",
       },
+      { id: "fcolor", type: "color", value: "#FFFFFF", label: "Custom Color" },
     ],
   },
 };

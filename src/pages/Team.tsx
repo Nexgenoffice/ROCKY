@@ -1,0 +1,311 @@
+import { useState, useEffect } from 'react';
+import { useTheme } from '../contexts/ThemeContext';
+import { ThemeToggle } from '../components/ThemeToggle';
+
+interface TeamMember {
+  id: number;
+  name: string;
+  image: string;
+  description: string;
+  role: string;
+  twitter: string;
+}
+
+const Team = () => {
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
+  const [isClosing, setIsClosing] = useState(false);
+  const { nightMode } = useTheme();
+
+  useEffect(() => {
+    const img = new Image();
+    const imageSrc = nightMode ? '/murd_n.png' : '/murd.png';
+    img.src = imageSrc;
+    img.onload = () => setImageLoaded(true);
+  }, [nightMode]);
+
+  const checkPixelAlpha = (e: React.MouseEvent<HTMLImageElement>, img: HTMLImageElement): boolean => {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return false;
+
+    canvas.width = img.naturalWidth;
+    canvas.height = img.naturalHeight;
+    ctx.drawImage(img, 0, 0);
+
+    const rect = img.getBoundingClientRect();
+    const x = Math.floor((e.clientX - rect.left) / rect.width * canvas.width);
+    const y = Math.floor((e.clientY - rect.top) / rect.height * canvas.height);
+
+    const pixel = ctx.getImageData(x, y, 1, 1).data;
+    return pixel[3] > 50; // Alpha > 50 pour considérer le pixel comme opaque
+  };
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLImageElement>, index: number) => {
+    const img = e.currentTarget;
+    if (!checkPixelAlpha(e, img)) {
+      setHoveredIndex(null);
+      return;
+    }
+
+    const rect = img.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 20;
+    const y = ((e.clientY - rect.top) / rect.height - 0.5) * 20;
+    setMousePosition({ x, y });
+    setHoveredIndex(index);
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredIndex(null);
+    setMousePosition({ x: 0, y: 0 });
+  };
+
+  const handleMemberClick = (member: TeamMember) => {
+    setSelectedMember(member);
+    setIsClosing(false);
+  };
+
+  const closePopup = () => {
+    if (isClosing) return; // Empêcher les clics multiples
+    setIsClosing(true);
+    setTimeout(() => {
+      setSelectedMember(null);
+      setIsClosing(false);
+    }, 300);
+  };
+
+  // Images de team avec positions style mur de tags
+  const teamMembers: TeamMember[] = [
+    { 
+      id: 1, 
+      name: 'Ash', 
+      role: 'Co-founder',
+      twitter: 'https://twitter.com/ash',
+      image: '/team/ash.png',
+      description: 'I\'m Ash, co-founder of Rocky\'s Head. I love Satoru Gojo.'
+    },
+    { 
+      id: 2, 
+      name: 'Nexgen', 
+      role: 'Founder',
+      twitter: 'https://twitter.com/nexgen',
+      image: '/team/nex.png',
+      description: 'Im Nexgen, founder of Rocky\'s Head, Let\'s Rocking Goooooo.' 
+    },
+    { 
+      id: 3, 
+      name: 'Oxy', 
+      role: 'Artist',
+      twitter: 'https://twitter.com/oxy',
+      image: '/team/oxy.png',
+      description: 'French mag 9.0 by excellence. Still not sure how I got here, but I\'m having fun.' 
+    },
+    { 
+      id: 4, 
+      name: 'Isa', 
+      role: 'Great Guide',
+      twitter: 'https://twitter.com/isa',
+      image: '/team/isa.png',
+      description: 'The Rocky\'s Head guide. Wisdom and cats.' 
+    },
+    { 
+      id: 5, 
+      name: 'Novasko', 
+      role: 'Community Team',
+      twitter: 'https://twitter.com/novasko',
+      image: '/team/novasko.png',
+      description: 'Hi I\'m Novasko, life is like a game, and I hate to lose.' 
+    },
+    { 
+      id: 6, 
+      name: 'Novee', 
+      role: 'Dev',
+      twitter: 'https://twitter.com/novee',
+      image: '/team/novee.png',
+      description: 'Just a random dev trying to make cool stuff. My code has bugs but I come from the 93.' 
+    },
+    { 
+      id: 7, 
+      name: 'Lele', 
+      role: 'Artist',
+      twitter: 'https://twitter.com/lele',
+      image: '/team/lele.png',
+      description: 'Hey I\'m Lele and I\'m an artist' 
+    },
+    { 
+      id: 8, 
+      name: 'ROH', 
+      role: 'Team Member',
+      twitter: 'https://twitter.com/roh',
+      image: '/team/roh.png',
+      description: 'Hello, I\'m ROH, part of the Rocky\'s Head team.' 
+    },
+  ];
+
+  // Nexgen en haut centre, les autres de chaque côté orientés vers l'intérieur
+  const tagPositions = [
+    { top: '0%', left: '10%', rotate: 0, scale: 0.90 },        // Ash - haut gauche (orienté vers l'intérieur)
+    { top: '10%', left: '40%', rotate: 0, scale: 1.5 },        // Nexgen - en haut centre sous le header (le plus gros)
+    { top: '0%', left: '65%', rotate: 0, scale: 0.90 },      // Oxy - haut droite (orienté vers l'intérieur)
+    { top: '30%', left: '5%', rotate: 0, scale: 0.90 },       // Isa - milieu gauche (orienté vers l'intérieur)
+    { top: '52%', left: '18%', rotate: 0, scale: 1.00 },       // Novasko - bas gauche
+    { top: '30%', left: '75%', rotate: 0, scale: 0.8 },     // Novee - milieu droite (orienté vers l'intérieur)
+    { top: '52%', left: '62%', rotate: 0, scale: 0.90 },      // Lele - bas droite
+    { top: '55%', left: '40%', rotate: 0, scale: 0.90 },       // ROH - bas centre
+  ];
+
+  return (
+    <div className="absolute inset-0 w-full h-full overflow-hidden bg-black">
+      {/* Fond murd.png */}
+      <div
+        className={`absolute inset-0 w-full h-full transition-all duration-500 ${
+          imageLoaded ? 'opacity-100' : 'opacity-0'
+        }`}
+        style={{
+          backgroundImage: nightMode ? "url(/murd_n.png)" : "url(/murd.png)",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+      />
+
+      {/* Theme Toggle Buttons */}
+      <ThemeToggle />
+
+      {/* Mur de tags avec les membres de l'équipe */}
+      <div className="relative z-10 w-full h-full p-8 mt-16">
+        {teamMembers.map((member, index) => {
+          const position = tagPositions[index];
+          return (
+            <div
+              key={member.id}
+              className="absolute w-80 h-80 transition-all duration-300"
+              style={{
+                top: position.top,
+                left: position.left,
+                transform: `rotate(${position.rotate}deg) scale(${position.scale})`,
+                zIndex: hoveredIndex === index ? 50 : 10,
+                pointerEvents: 'none',
+              }}
+            >
+              <img
+                src={member.image}
+                alt={member.name}
+                className="w-full h-full object-contain transition-all duration-200 ease-out cursor-pointer"
+                style={{
+                  transform: hoveredIndex === index 
+                    ? `translate(${mousePosition.x}px, ${mousePosition.y}px) rotate(0deg)`
+                    : 'translate(0, 0)',
+                  filter: hoveredIndex === index 
+                    ? 'drop-shadow(0 25px 40px rgba(0,0,0,0.6))' 
+                    : 'drop-shadow(0 15px 25px rgba(0,0,0,0.4))',
+                  imageRendering: '-webkit-optimize-contrast',
+                  pointerEvents: 'auto',
+                }}
+                onMouseMove={(e) => handleMouseMove(e, index)}
+                onMouseLeave={handleMouseLeave}
+                onClick={() => handleMemberClick(member)}
+              />
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Popup Modal */}
+      {selectedMember && (
+        <div 
+          key={selectedMember.id}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+          onClick={closePopup}
+          style={{
+            animation: isClosing ? 'fadeOut 0.3s ease-out forwards' : 'fadeIn 0.3s ease-out forwards',
+            pointerEvents: isClosing ? 'none' : 'auto'
+          }}
+        >
+          <div 
+            className="relative bg-gradient-to-br from-pink-100 via-purple-100 to-blue-100 rounded-[2.5rem] p-12 max-w-5xl w-full mx-4 border-8 border-black shadow-[8px_8px_0px_rgba(0,0,0,1)] overflow-visible"
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              animation: isClosing 
+                ? 'scaleOut 0.3s cubic-bezier(0.36, 0, 0.66, -0.56) forwards' 
+                : 'scaleIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards'
+            }}
+          >
+            {/* Close button */}
+            <button
+              onClick={closePopup}
+              className="absolute -top-4 -right-4 w-12 h-12 bg-[#D4A574] rounded-full text-[#D4A574] text-3xl font-black hover:scale-110 transition-transform border-4 border-black shadow-lg flex items-center justify-center"
+              style={{
+                color: '#D4A574',
+                backgroundColor: 'white'
+              }}
+            >
+              ×
+            </button>
+
+            {/* Photo du membre - Chevauche à gauche */}
+            <div 
+              className="absolute -left-32 top-1/2 -translate-y-1/2 w-[400px] h-[400px] z-10"
+              style={{
+                backgroundImage: `url(${selectedMember.image})`,
+                backgroundSize: "contain",
+                backgroundPosition: "center",
+                backgroundRepeat: "no-repeat",
+                filter: "drop-shadow(8px 8px 12px rgba(0,0,0,0.4))"
+              }}
+            />
+
+            {/* Info du membre */}
+            <div className="ml-72 flex-1">
+              <h2 
+                className="text-8xl font-black mb-4 uppercase tracking-tight"
+                style={{ 
+                  fontFamily: "Gaegu, cursive",
+                  color: '#D4A574',
+                  textShadow: "none",
+                  filter: "drop-shadow(3px 3px 0px rgba(0,0,0,0.2))"
+                }}
+              >
+                {selectedMember.name}
+              </h2>
+              <p 
+                className="text-gray-600 text-4xl mb-8 uppercase tracking-wide"
+                style={{ 
+                  fontFamily: "Gaegu, cursive",
+                  fontWeight: 700
+                }}
+              >
+                {selectedMember.role}
+              </p>
+              <p 
+                className="text-gray-800 text-3xl leading-relaxed mb-6"
+                style={{ 
+                  fontFamily: "Gaegu, cursive",
+                  fontWeight: 400
+                }}
+              >
+                {selectedMember.description}
+              </p>
+              <a 
+                href={selectedMember.twitter} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-3 bg-black text-white px-6 py-3 rounded-full hover:bg-blue-400 transition-colors border-4 border-black shadow-lg"
+                style={{ fontFamily: "Gaegu, cursive", fontWeight: 700 }}
+              >
+                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                </svg>
+                <span className="text-2xl">Twitter</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default Team;
