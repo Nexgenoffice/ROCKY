@@ -5,7 +5,7 @@ import { ThemeToggle } from "../components/ThemeToggle";
 
 const PfpGenerator = () => {
   const [showInfoPopup, setShowInfoPopup] = useState(false);
-  const [activeTab, setActiveTab] = useState<"what" | "contributions">("what");
+  const [activeTab, setActiveTab] = useState<"what" | "contributions" | "traits">("what");
   const [isClosing, setIsClosing] = useState(false);
   const { nightMode } = useTheme();
 
@@ -141,6 +141,21 @@ const PfpGenerator = () => {
               >
                 Contributions
               </button>
+              <button
+                onClick={() => setActiveTab("traits")}
+                className={`px-3 md:px-6 py-2 md:py-3 text-lg md:text-2xl font-bold rounded-t-xl md:rounded-t-2xl transition-all border-2 md:border-4 border-black ${
+                  activeTab === "traits"
+                    ? "shadow-md -mb-2"
+                    : "hover:bg-pink-200"
+                }`}
+                style={{ 
+                  fontFamily: "Gaegu, cursive",
+                  backgroundColor: activeTab === "traits" ? "#D4A574" : "#E8D4C0",
+                  color: activeTab === "traits" ? "white" : "#8B6F47"
+                }}
+              >
+                Special Traits
+              </button>
             </div>
 
             {/* Content */}
@@ -177,7 +192,7 @@ const PfpGenerator = () => {
                     Use the random button for inspiration or craft your character piece by piece. Download your creation when you're done!
                   </p>
                 </div>
-              ) : (
+              ) : activeTab === "contributions" ? (
                 <div>
                   <h2
                     className="text-3xl md:text-5xl font-black mb-4 md:mb-6 uppercase"
@@ -200,6 +215,92 @@ const PfpGenerator = () => {
                     <p><strong>Design & Art:</strong> The Rocky's Head Team</p>
                     <p><strong>Development:</strong> Nexgen & Novee</p>
                     <p><strong>Special Thanks:</strong> Our amazing community for their support and feedback!</p>
+                  </div>
+                </div>
+              ) : (
+                <div>
+                  <h2
+                    className="text-3xl md:text-5xl font-black mb-4 md:mb-6 uppercase"
+                    style={{
+                      fontFamily: "Gaegu, cursive",
+                      color: "#D4A574",
+                      textShadow: "none",
+                      filter: "drop-shadow(3px 3px 0px rgba(0,0,0,0.2))",
+                    }}
+                  >
+                    Special Traits
+                  </h2>
+                  <div
+                    className="text-gray-800 text-lg md:text-2xl leading-relaxed space-y-3 md:space-y-4"
+                    style={{
+                      fontFamily: "Gaegu, cursive",
+                      fontWeight: 400,
+                    }}
+                  >
+                    <div>
+                      <p className="font-bold mb-2">Accessories:</p>
+                      <div className="flex items-center gap-3">
+                        <span>Syderal</span>
+                        <a
+                          href="https://x.com/Syderal_Sydney"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 bg-black text-white px-3 py-1 rounded-full hover:bg-blue-400 transition-colors text-base md:text-lg"
+                        >
+                          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                          </svg>
+                          <span>X</span>
+                        </a>
+                      </div>
+                    </div>
+                    <div>
+                      <p className="font-bold mb-2">Badges:</p>
+                      <div className="flex flex-col gap-2">
+                        <div className="flex items-center gap-3">
+                          <span>Asu</span>
+                          <a
+                            href="https://x.com/LastButterfly21"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1 bg-black text-white px-3 py-1 rounded-full hover:bg-blue-400 transition-colors text-base md:text-lg"
+                          >
+                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                            </svg>
+                            <span>X</span>
+                          </a>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <span>Xeno</span>
+                          <a
+                            href="https://x.com/0xLordXeno"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1 bg-black text-white px-3 py-1 rounded-full hover:bg-blue-400 transition-colors text-base md:text-lg"
+                          >
+                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                            </svg>
+                            <span>X</span>
+                          </a>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <span>Cepodr</span>
+                          <a
+                            href="https://x.com/cepodr"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1 bg-black text-white px-3 py-1 rounded-full hover:bg-blue-400 transition-colors text-base md:text-lg"
+                          >
+                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                            </svg>
+                            <span>X</span>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               )}
