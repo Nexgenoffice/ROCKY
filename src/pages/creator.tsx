@@ -11,7 +11,7 @@ export default function CharacterCreator() {
     beard: null,
     acc1: null,
     acc2: null,
-    background: null,
+    fonds: null,
   });
 
   const handleSelect = (category: string, id: string | null) => {
@@ -30,7 +30,7 @@ export default function CharacterCreator() {
       beard: null,
       acc1: null,
       acc2: null,
-      background: null,
+      fonds: null,
     });
   };
 
