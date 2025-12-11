@@ -112,6 +112,7 @@ export const ACCESSORY_CATEGORIES = {
         value: "/Mouth/tire_langue.png",
         label: "Tire Langue",
       },
+      { id: "m17", type: "image", value: "/Mouth/clown2.png", label: "Clown" },
     ],
   },
   hair: {
@@ -177,6 +178,8 @@ export const ACCESSORY_CATEGORIES = {
       { id: "h20", type: "image", value: "/hair/volcano.png", label: "Volcano" },
       { id: "h21", type: "image", value: "/hair/fries.png", label: "Fries" },
       { id: "h22", type: "image", value: "/hair/mouss.png", label: "Mouss" },
+      { id: "h23", type: "image", value: "/hair/clown.png", label: "Clown" },
+      { id: "h24", type: "image", value: "/hair/rabbit.png", label: "Rabbit" },
     ],
   },
   badges: {
@@ -406,6 +409,9 @@ export const ACCESSORY_CATEGORIES = {
         value: "/accessories/ukulele.png",
         label: "Ukulele",
       },
+      { id: "acc17", type: "image", value: "/accessories/pudgy.png", label: "Pudgy" },
+      { id: "acc18", type: "image", value: "/accessories/ring.png", label: "Ring" },
+      { id: "acc19", type: "image", value: "/accessories/torch.png", label: "Torch" },
     ],
   },
   clothes: {
